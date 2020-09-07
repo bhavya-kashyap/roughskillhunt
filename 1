@@ -1,0 +1,54 @@
+import time, pymongo, pymysql
+
+
+
+class Profile:
+   def self.__init__():
+      self.prof = int(time.time())
+      return self.prof
+
+   def create_pdf():
+      pass
+
+class Candidates:
+   def self.__init__(phone):
+      self.prof = Profile()
+      self.exp = []
+      self.rating = 0
+      return True
+
+   def self.set_exp():
+      client = pymongo.MongoClient("mongodb://localhost:27017/")
+      db = client["skillhunt"]
+      col = db["experience"]
+      db.col.insertOne({ "phone" : "{}".format(self.phone), "exp" : [] })
+      client.close()
+      return True
+
+   def self.create_c(name, contact, city, description, category, education):
+      self.name=name
+      self.contact = contact
+      self.city=city
+      self.description=description
+      self.education=education
+      db = pymysql.connect("localhost","root","Mproject@2020","skillhunt" )
+      cur = db.cursor()
+      cur.execute('INSERT into candidate(name, phone, prof, location, description, rating, experience, category) values("%s", "%d", "%d", "%s", "%s", "%d", "%s","%s")'%(name, contact, self.prof, city, description, rating, experience, category)
+     return True
+
+   def self.rate(rate):
+      self.rating = float("{:.2f}".format((self.rating+rate)/2))
+      return self.rating
+
+   def self.get_c():
+      return self.name, self.phone, self.prof, self.city, self.description, self.category, self.education, self.experience, self.rating
+
+def add_exp(phone, exp):
+   client = pymongo.MongoClient("mongodb://localhost:27017/")
+   db = client["skillhunt"]
+   col = db["experience"]
+
+   db.col.aggregate([ { $match: { phone: "{}".format(phone) } }, { $addFields: { exp: { $concatArrays: [ "$exp", ["{}".format(exp)] ] }}} ])
+
+   client.close()
+   return True
